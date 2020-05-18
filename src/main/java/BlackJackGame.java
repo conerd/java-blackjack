@@ -8,6 +8,7 @@ import java.util.*;
 
 public class BlackJackGame {
     private static final int FIRST_DISTRIBUTION_COUNT = 2;
+
     private static Queue<Card> cards = new LinkedList<>();
     private static List<Player> players = new ArrayList<>();
 
