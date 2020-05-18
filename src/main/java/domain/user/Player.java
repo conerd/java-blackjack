@@ -3,6 +3,7 @@ package domain.user;
 import domain.card.Card;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,5 +24,16 @@ public class Player {
     }
 
     // TODO 추가 기능 구현
+    public String getName() {
+        return this.name;
+    }
 
+    public String getCards() {
+        List<String> cardStrings = new LinkedList<>();
+        for (Card card : cards) {
+            cardStrings.add(card.toString());
+        }
+
+        return String.join(", ", cardStrings);
+    }
 }
