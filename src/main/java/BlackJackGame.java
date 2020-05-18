@@ -1,23 +1,25 @@
 import domain.card.Card;
 import domain.card.CardFactory;
-import domain.user.Player;
 import domain.user.Players;
 import view.InputView;
+import view.OutputView;
 
 import java.util.*;
 
 public class BlackJackGame {
+    private static final int DEALER_NUMBER = 0;
     private static final int FIRST_DISTRIBUTION_COUNT = 2;
 
     private static Queue<Card> cards = new LinkedList<>();
-    private static List<Player> players = new ArrayList<>();
+    private static Players players;
 
     public BlackJackGame() {
         initCards();
+        players = new Players(InputView.inputPlayerNames());
     }
 
     private void initCards() {
-        List<Card> initialCards = CardFactory.create();
+        List<Card> initialCards = new ArrayList<>(CardFactory.create());
         Collections.shuffle(initialCards);
 
         for (Card card : initialCards) {
@@ -26,20 +28,26 @@ public class BlackJackGame {
     }
 
     public void run() {
-        players = Players.createPlayers(InputView.inputPlayerNames());
         splitCards();
-
+        OutputView.printProgressGuide(players.getPlayerName(DEALER_NUMBER), players.getPlayerNames());
+        showPlayersCards();
     }
 
     private void splitCards() {
-        for (Player player : players) {
-            splitCardsTwice(player);
+        for (int i = 0; i < players.getNumberOfPlayers(); i++) {
+            distributeCardTwice(i);
         }
     }
 
-    private void splitCardsTwice(Player player) {
+    private void distributeCardTwice(int player) {
         for (int i = 0; i < FIRST_DISTRIBUTION_COUNT; i++) {
-            player.addCard(cards.poll());
+            players.distributeCardToPlayer(player, cards.poll());
+        }
+    }
+
+    private void showPlayersCards() {
+        for (int i = 0; i < players.getNumberOfPlayers(); i++) {
+            OutputView.printPlayerCards(players.getPlayerName(i), players.getPlayerCards(i));
         }
     }
 }
