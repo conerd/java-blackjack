@@ -6,24 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
-    List<Player> players = new ArrayList<>();
+    public static List<Player> createPlayers(String playerNames) {
+        List<Player> players = new ArrayList<>();
 
-    public Players(String playerNames) {
-        createPlayers(playerNames);
-        createDealer();
-    }
-
-    private void createPlayers(String playerNames) {
-        String[] names = playerNames.split(",");
-
-        for (int i = 0; i < names.length; i++) {
-            players.add(new Player(names[i], InputView.inputBettingMoney(names[i])));
-        }
-    }
-
-    private void createDealer() {
         players.add(new Dealer());
+
+        String[] names = playerNames.split(",");
+        for (String name : names) {
+            players.add(new Player(name, InputView.inputBettingMoney(name)));
+        }
+
+        return players;
     }
-
-
 }
