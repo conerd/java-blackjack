@@ -10,4 +10,10 @@ public class InputView {
 
         return scanner.nextLine();
     }
+
+    public static double inputBettingMoney(String name) {
+        System.out.println("\n" + name + "의 배팅 금액은?");
+
+        return scanner.nextDouble();
+    }
 }
