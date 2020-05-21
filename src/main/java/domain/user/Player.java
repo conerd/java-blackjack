@@ -32,6 +32,10 @@ public class Player {
         return this.name;
     }
 
+    public double getBettingMoney() {
+        return this.bettingMoney;
+    }
+
     public String getCardsNames() {
         List<String> cardStrings = new LinkedList<>();
         for (Card card : cards) {
@@ -50,11 +54,11 @@ public class Player {
         return scores;
     }
 
-    public int calculateScore() {
+    public int getScore() {
         return CardCalculator.calculateTotalScore(getScores());
     }
 
     public boolean isNeedAdditionalCard() {
-        return (calculateScore() <= CONDITION_DEALER_ADDITIONAL_CARD);
+        return (getScore() <= CONDITION_DEALER_ADDITIONAL_CARD);
     }
 }

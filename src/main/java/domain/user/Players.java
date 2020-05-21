@@ -1,7 +1,7 @@
 package domain.user;
 
+import domain.BettingMoneyCalculator;
 import domain.card.Card;
-import domain.card.CardCalculator;
 import view.InputView;
 
 import java.util.ArrayList;
@@ -9,11 +9,12 @@ import java.util.List;
 
 public class Players {
     private static final int INDEX_FROM_PLAYER = 1;
+    private static final int INDEX_DEALER = 0;
     private List<Player> players = new ArrayList<>();
+    private BettingMoneyCalculator bettingMoneyCalculator;
 
     public Players(String playerNames) {
         createPlayers(playerNames);
-
     }
 
     private void createPlayers(String playerNames) {
@@ -57,6 +58,18 @@ public class Players {
     }
 
     public int getScore(int player) {
-        return players.get(player).calculateScore();
+        return players.get(player).getScore();
+    }
+
+    public void calculateBettingMoney() {
+        bettingMoneyCalculator = new BettingMoneyCalculator(players.get(INDEX_DEALER).getScore());
+        for (int i = INDEX_FROM_PLAYER; i < players.size(); i++) {
+            bettingMoneyCalculator.calculateBettingMoney(players.get(i).getScore(), players.get(i).getBettingMoney());
+        }
+        bettingMoneyCalculator.calculateDealerMoney();
+    }
+
+    public String getResult(int player) {
+        return players.get(player).getName() + ": " + bettingMoneyCalculator.getBettingMoney(player);
     }
 }
