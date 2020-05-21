@@ -1,13 +1,14 @@
 package domain.user;
 
 import domain.card.Card;
+import domain.card.CardCalculator;
 import view.InputView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
+    private static final int INDEX_FROM_PLAYER = 1;
     private List<Player> players = new ArrayList<>();
 
     public Players(String playerNames) {
@@ -40,7 +41,7 @@ public class Players {
     public List<String> getPlayerNames() {
         List<String> playerNames = new ArrayList<>();
 
-        for (int i = 1; i < players.size(); i++) {
+        for (int i = INDEX_FROM_PLAYER; i < players.size(); i++) {
             playerNames.add(players.get(i).getName());
         }
 
@@ -48,6 +49,14 @@ public class Players {
     }
 
     public String getPlayerCards(int player) {
-        return players.get(player).getCards();
+        return players.get(player).getCardsNames();
+    }
+
+    public boolean isNeedAdditionalCard(int player) {
+        return players.get(player).isNeedAdditionalCard();
+    }
+
+    public int getScore(int player) {
+        return players.get(player).calculateScore();
     }
 }
