@@ -1,6 +1,7 @@
 package domain.user;
 
 import domain.card.Card;
+import domain.card.CardCalculator;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,8 +11,11 @@ import java.util.List;
  * 게임 참여자를 의미하는 객체
  */
 public class Player {
+    private static final int CONDITION_DEALER_ADDITIONAL_CARD = 21;
+
     private final String name;
     private final double bettingMoney;
+
     private final List<Card> cards = new ArrayList<>();
 
     public Player(String name, double bettingMoney) {
@@ -28,12 +32,29 @@ public class Player {
         return this.name;
     }
 
-    public String getCards() {
+    public String getCardsNames() {
         List<String> cardStrings = new LinkedList<>();
         for (Card card : cards) {
             cardStrings.add(card.toString());
         }
 
         return String.join(", ", cardStrings);
+    }
+
+    public List<Integer> getScores() {
+        List<Integer> scores = new ArrayList<>();
+        for (Card card : cards) {
+            scores.add(card.getScore());
+        }
+
+        return scores;
+    }
+
+    public int calculateScore() {
+        return CardCalculator.calculateTotalScore(getScores());
+    }
+
+    public boolean isNeedAdditionalCard() {
+        return (calculateScore() <= CONDITION_DEALER_ADDITIONAL_CARD);
     }
 }
