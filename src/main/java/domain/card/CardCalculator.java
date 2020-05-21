@@ -31,10 +31,44 @@ public class CardCalculator {
     }
 
     private static int getOptimalAceScore(int sum) {
+        if (isBlackJack(sum)) {
+            return takeBlackJack(sum);
+        }
+
+        if (isBothSameSign(sum)) {
+            return takeCloserToBlackJack(sum);
+        }
+
+        return takeUnderBlackJack(sum);
+    }
+
+    private static boolean isBlackJack(int sum) {
+        return (sum + ACE_ONE == CONDITION_BLACKJACK) || (sum + ACE_ELEVEN == CONDITION_BLACKJACK);
+    }
+
+    private static int takeBlackJack(int sum) {
+        if (sum + ACE_ONE == CONDITION_BLACKJACK) {
+            return ACE_ONE;
+        }
+        return ACE_ELEVEN;
+    }
+
+    private static boolean isBothSameSign(int sum) {
+        return ((sum + ACE_ONE < CONDITION_BLACKJACK) && (sum + ACE_ELEVEN < CONDITION_BLACKJACK))
+                || ((sum + ACE_ONE > CONDITION_BLACKJACK) && (sum + ACE_ELEVEN > CONDITION_BLACKJACK));
+    }
+
+    private static int takeCloserToBlackJack(int sum) {
         if (Math.abs(sum + ACE_ONE - CONDITION_BLACKJACK) < Math.abs(sum + ACE_ELEVEN - CONDITION_BLACKJACK)) {
             return ACE_ONE;
         }
+        return ACE_ELEVEN;
+    }
 
+    private static int takeUnderBlackJack(int sum) {
+        if (sum + ACE_ONE < CONDITION_BLACKJACK) {
+            return ACE_ONE;
+        }
         return ACE_ELEVEN;
     }
 }

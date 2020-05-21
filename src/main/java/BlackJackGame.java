@@ -39,6 +39,14 @@ public class BlackJackGame {
         takeAdditionalCards();
         takeDealerAdditionalCards();
         showResultCardsWithScore();
+        players.calculateBettingMoney();
+        showResultMoney();
+    }
+
+    private void showResultMoney() {
+        for (int i = 0; i < players.getNumberOfPlayers(); i++) {
+            OutputView.printResult(players.getResult(i));
+        }
     }
 
     private void distributeCards() {
@@ -89,6 +97,7 @@ public class BlackJackGame {
     }
 
     private void showResultCardsWithScore() {
+        OutputView.printNewLine();
         for (int i = INDEX_FROM_DEALER; i < players.getNumberOfPlayers(); i++) {
             OutputView.printResultCardsWithScore(players.getPlayerName(i), players.getPlayerCards(i), players.getScore(i));
         }
